@@ -1,0 +1,10 @@
+{
+     "hosting": {
+       "public": ".",  # Atau folder tempat HTML disimpan
+       "ignore": [
+         "firebase.json",
+         "**/.*",
+         "**/node_modules/**"
+       ]
+     }
+   }
