@@ -1,24 +1,19 @@
-steps:
-  - uses: actions/checkout@v4
-    with:
-      fetch-depth: 0  # Pastikan semua file terdownload
+name: Deploy to Firebase Hosting
+on:
+  push:
+    branches: [ "main" ]
 
-  - name: Verify files
-    run: ls -la  # Untuk debugging, cek file apa saja yang ada
-
-  - name: Install dependencies
-    if: exists('package.json')  # Hanya jalankan jika package.json ada
-    run: npm install
-
-  - name: Build
-    if: exists('package.json')
-    run: npm run build
-
-  - name: Deploy to Firebase
-    uses: FirebaseExtended/action-hosting-deploy@v0
-    with:
-      repoToken: '${{ secrets.GITHUB_TOKEN }}'
-      firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-      projectId: 'fir-result-eeca5'
-      channelId: 'live'
-      entryPoint: '.'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # Mendownload kode dari repo
+      
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          projectId: 'fir-result-eeca5'
+          channelId: 'live'
+          entryPoint: '.'  # Pastikan firebase.json ada di root
